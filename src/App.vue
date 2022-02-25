@@ -8,7 +8,7 @@ const courseNameItems = reactive([
     { classID: '3', courseName: '', grade: 3, credit: 2 },
     { classID: '4', courseName: '', grade: 3, credit: 1 },
     { classID: '5', courseName: '', grade: 4, credit: 3 }
-
+    //คิดว่าไม่จำเป็นต้องเก็บข้อมูล obj อย่างนี้ก็ได้นะ แค่ใส่เป็นเลข 0 ก็ได้ แทน index ลำดับๆไป
 ]);
 const gradeSelection = ref([]);
 const creditSelection = ref([]);
@@ -37,7 +37,7 @@ const gradeCalculation = computed(() => {
     // let sumTotal = total.reduce((prev,curr) => prev+curr,0);
     console.log("ผลลัพธ์ของเกรด x หน่วนกิต = " + total);
     console.log("ผลรวมของหน่วยกิตทั้งหมด = " + sumCredit);
-    return total / sumCredit;
+    return (total / sumCredit).toFixed(2)
 })
 
 const findSumCredit = computed(() => {
@@ -45,6 +45,13 @@ const findSumCredit = computed(() => {
     sumCredit = creditSelection.value.reduce((prev, curr) => prev + curr, 0);
     return sumCredit;
 })
+
+
+// test----------------
+const test = ref(() => {
+    courseNameItems.splice(5,0,0)
+})
+
 
 </script>
  
@@ -136,6 +143,9 @@ const findSumCredit = computed(() => {
                     ผลรวมของเกรด * หน่วยกิต : {{ gradeCalculation }}
                     <br />
                     ผลรวมของหน่วยกิตทั้งหมด : {{ findSumCredit }}-->
+                    <br><button v-on:click="test"  class="py-2 px-4 rounded-lg bg-blue-500 text-white font-bold">
+                        Add Row
+                        </button>
                 </div>
             </div>
         </div>
