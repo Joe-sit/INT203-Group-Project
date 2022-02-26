@@ -5,7 +5,7 @@ const logoSize = 'width:242px;';
 const courseNameItems = reactive([]);
 const gradeSelection = ref([]);
 const creditSelection = ref([]);
-const changColor =ref(undefined)
+
 
 
 // สูตรคำนวณเกรด สมมติมี 5 วิชา 
@@ -47,6 +47,11 @@ const addRow = ref(() => {
     courseNameItems.splice(courseNameItems.length,0,'')
 })
 
+const Bcancel = ref(() => {
+    courseNameItems.pop()
+    gradeSelection.value.pop()
+    creditSelection.value.pop()
+})
 
 
 </script>
@@ -134,6 +139,9 @@ const addRow = ref(() => {
                     <button v-on:click="addRow"  class="BaddRow">
                         Add Row
                     </button>
+                    <button  v-on:click="Bcancel" v-if="courseNameItems.length>0" class="Bcancel">
+                        delete
+                    </button>
                 </div>
             </div>
         </div>
@@ -182,12 +190,27 @@ body{
      color: rgb(0, 0, 0);
      font-size:  25px;
      font-weight: bold;
-     transition: all 0.5s ease;
+     transition: all 1s ease;
 }
 .BaddRow:hover{
     color: rgb(255, 255, 255);
     background-color: rgb(52, 175, 247);
 }
 
+.Bcancel{
+    width: auto;
+    height: auto;
+    padding: 8px;
+    border-radius:12px ;
+     font-family: "Audiowide", sans-serif;
+     color: rgb(0, 0, 0);
+     font-size:  25px;
+     font-weight: bold;
+     transition: all 1s ease;
+}
+.Bcancel:hover{
+    color: rgb(255, 255, 255);
+    background-color: rgb(248, 91, 91);
+}
 </style>
 
