@@ -96,16 +96,16 @@ const addRow = ref(() => {
                                 />
                             </td>
                             <td>
-                                <select v-model="gradeSelection[index]" class="border bg-white">
-                                    <option disabled>Please select your grade</option>
-                                    <option value="4">4(A)</option>
-                                    <option value="3.5">3.5(B+)</option>
-                                    <option value="3">3(B)</option>
-                                    <option value="2.5">2.5(C+)</option>
-                                    <option value="2">2(C)</option>
-                                    <option value="2">1.5(D+)</option>
-                                    <option value="1">1(D)</option>
-                                    <option value="0">0(F)</option>
+                                <select v-model="gradeSelection[index]" >
+                                    <option disabled >Please select your grade</option>
+                                    <option value="4">A</option>
+                                    <option value="3.5">B+</option>
+                                    <option value="3">B</option>
+                                    <option value="2.5">C+</option>
+                                    <option value="2">C</option>
+                                    <option value="2">D+</option>
+                                    <option value="1">D</option>
+                                    <option value="0">F</option>
                                 </select>
                             </td>
                             <td>
@@ -125,13 +125,13 @@ const addRow = ref(() => {
                 <div class="result">
                     <p v-if="courseNameItems.length>0">
                     Semester GPA is : 
-                    <span v-if="gradeCalculation<2.49" class="square" style="background-color: rgb(238, 163, 78);">{{ gradeCalculation }}</span>
-                    <span v-else-if="gradeCalculation<3.49" class="square" style="background-color: rgb(236, 252, 96);">{{ gradeCalculation }}</span>
-                    <span v-else-if="gradeCalculation<=4" class="square" style="background-color: rgb(73, 209, 73);">{{ gradeCalculation }}</span>
+                    <span v-if="gradeCalculation<2.49" class="square" style="background-color: rgb(238, 78, 78);">{{ gradeCalculation }}</span>
+                    <span v-else-if="gradeCalculation<3.49" class="square" style="background-color: rgb(252, 171, 96);">{{ gradeCalculation }}</span>
+                    <span v-else-if="gradeCalculation<=4" class="square" style="background-color: rgb(96, 243, 96);">{{ gradeCalculation }}</span>
                     <span v-else class="square" style="color: rgb(255, 0, 0);font-size: 15px;">information is not complete</span>
                     </p>
                     <br>
-                    <button v-on:click="addRow"  class="addRow">
+                    <button v-on:click="addRow"  class="BaddRow">
                         Add Row
                     </button>
                 </div>
@@ -173,8 +173,21 @@ body{
      font-weight: bold;
 }
 
-.addRow{
-
+.BaddRow{
+    width: auto;
+    height: auto;
+    padding: 8px;
+    border-radius:12px ;
+     font-family: "Audiowide", sans-serif;
+     color: rgb(0, 0, 0);
+     font-size:  25px;
+     font-weight: bold;
+     transition: all 0.5s ease;
 }
+.BaddRow:hover{
+    color: rgb(255, 255, 255);
+    background-color: rgb(52, 175, 247);
+}
+
 </style>
 
