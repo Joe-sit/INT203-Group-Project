@@ -2,16 +2,11 @@
 import { ref, computed, reactive } from 'vue'
 const logoSize = 'width:242px;';
 
-const courseNameItems = reactive([
-    { classID: '1', courseName: '', grade: 3, credit: 2 },
-    { classID: '2', courseName: '', grade: 4, credit: 3 },
-    { classID: '3', courseName: '', grade: 3, credit: 2 },
-    { classID: '4', courseName: '', grade: 3, credit: 1 },
-    { classID: '5', courseName: '', grade: 4, credit: 3 }
-    //คิดว่าไม่จำเป็นต้องเก็บข้อมูล obj อย่างนี้ก็ได้นะ แค่ใส่เป็นเลข 0 ก็ได้ แทน index ลำดับๆไป
-]);
+const courseNameItems = reactive([]);
 const gradeSelection = ref([]);
 const creditSelection = ref([]);
+const changColor =ref(undefined)
+
 
 // สูตรคำนวณเกรด สมมติมี 5 วิชา 
 // เกรดที่ได้ A(4) A(4) B(3) A(4) A(4)
@@ -48,9 +43,10 @@ const findSumCredit = computed(() => {
 
 
 // test----------------
-const test = ref(() => {
-    courseNameItems.splice(5,0,0)
+const addRow = ref(() => {
+    courseNameItems.splice(courseNameItems.length,0,'')
 })
+
 
 
 </script>
@@ -63,9 +59,9 @@ const test = ref(() => {
             </div>
             <!-- left header section -->
             <div class="items-center hidden space-x-8 lg:flex">
-                <a href>Home</a>
+                <a href >Home</a>
                 <a href>About Us</a>
-                <a href>Contact Us</a>
+                <a href>Feedback</a>
             </div>
             <!-- right header section -->
         </nav>
@@ -73,29 +69,20 @@ const test = ref(() => {
         <!-- <div>  
              <span>  </span>
         </div>-->
-        <div class="grid-container">
-            <div class="pborder">
-                <p>check in array</p>
-
-                <table class="table-fixed" style="width:50%">
+        <div class="grid-container" >
+            <div class="container" >
+                <!-- <p>check in array</p> -->
+                <div class="table">
+                <table class="table-fixed" style="margin: auto;">
                     <thead>
-                        <tr>
-                            <th>courseID</th>
+                        <tr v-if="courseNameItems.length>0">
+                            <th>NO.</th>
                             <th>Course</th>
                             <th>Grade</th>
                             <th>Credit</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- <tr v-for="course in courseNameItem" :key="course.courseID">
-                            <td>{{ course.courseID }}</td>
-                            <td>{{ course.courseName }}</td>
-                            <td>{{ course.grade }}</td>
-                            <td>{{ course.credit }}</td> 
-                            
-                            //ใช้เพื่อแสดงข้อมูลจาก array
-                        -->
-
                         <tr
                             v-for="(item, index) in courseNameItems"
                             :key="index"
@@ -103,15 +90,14 @@ const test = ref(() => {
                         >
                             <td>{{ index + 1 }}</td>
                             <td>
-                                <input
-                                    type="text"
-                                    class="border"
+                                <input v-model="courseNameItems[index]" type="text"
+                                    
                                     placeholder="e.g INT101 Fundamental Programming"
                                 />
                             </td>
                             <td>
                                 <select v-model="gradeSelection[index]" class="border bg-white">
-                                    <option value>Please select your grade</option>
+                                    <option disabled>Please select your grade</option>
                                     <option value="4">4(A)</option>
                                     <option value="3.5">3.5(B+)</option>
                                     <option value="3">3(B)</option>
@@ -125,7 +111,7 @@ const test = ref(() => {
                             <td>
                                 <input
                                     type="number"
-                                    class="border"
+                                    
                                     placeholder="Enter course's credit"
                                     min="0.5"
                                     step="0.5"
@@ -135,17 +121,19 @@ const test = ref(() => {
                         </tr>
                     </tbody>
                 </table>
-                <div>
-                    Your Semester GPA is : {{ gradeCalculation }}
-                    <br />
-                    <!-- Total Credit is :{{ creditSelection }}
-                    <br />
-                    ผลรวมของเกรด * หน่วยกิต : {{ gradeCalculation }}
-                    <br />
-                    ผลรวมของหน่วยกิตทั้งหมด : {{ findSumCredit }}-->
-                    <br><button v-on:click="test"  class="py-2 px-4 rounded-lg bg-blue-500 text-white font-bold">
+                </div>
+                <div class="result">
+                    <p v-if="courseNameItems.length>0">
+                    Semester GPA is : 
+                    <span v-if="gradeCalculation<2.49" class="square" style="background-color: rgb(238, 163, 78);">{{ gradeCalculation }}</span>
+                    <span v-else-if="gradeCalculation<3.49" class="square" style="background-color: rgb(236, 252, 96);">{{ gradeCalculation }}</span>
+                    <span v-else-if="gradeCalculation<=4" class="square" style="background-color: rgb(73, 209, 73);">{{ gradeCalculation }}</span>
+                    <span v-else class="square" style="color: rgb(255, 0, 0);font-size: 15px;">information is not complete</span>
+                    </p>
+                    <br>
+                    <button v-on:click="addRow"  class="addRow">
                         Add Row
-                        </button>
+                    </button>
                 </div>
             </div>
         </div>
@@ -154,10 +142,39 @@ const test = ref(() => {
 </template>
  
 <style>
-.pborder {
-    border: 2px solid rgb(19, 18, 18);
-    border-radius: 9px;
-    padding: 3px;
+.table {
+    padding: 20px;
+    margin: auto;
+}
+.result{
+    margin: auto;
+    padding: 20px ;
+    text-align: center;
+}
+.container{
+    margin: auto;
+    width:50%;
+    padding: 20px 10px 10px 10px;
+
+}
+body{
+    font-size: 20px;
+}
+.square{
+    display: inline-block;
+     /* background-color: rgb(73, 209, 73);  */
+    width: auto;
+    height: auto;
+    padding: 8px;
+    border-radius:12px ;
+     font-family: "Audiowide", sans-serif;
+     color: white;
+     font-size:  25px;
+     font-weight: bold;
+}
+
+.addRow{
+
 }
 </style>
 
